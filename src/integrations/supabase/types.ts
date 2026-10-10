@@ -14,13 +14,281 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      documents: {
+        Row: {
+          content_hash: string
+          created_at: string
+          extracted_text: string
+          file_size: number
+          file_type: string
+          id: string
+          pages: Json
+          processing_status: string
+          storage_path: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          content_hash: string
+          created_at?: string
+          extracted_text?: string
+          file_size: number
+          file_type: string
+          id?: string
+          pages?: Json
+          processing_status?: string
+          storage_path: string
+          title: string
+          user_id: string
+        }
+        Update: {
+          content_hash?: string
+          created_at?: string
+          extracted_text?: string
+          file_size?: number
+          file_type?: string
+          id?: string
+          pages?: Json
+          processing_status?: string
+          storage_path?: string
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      learning_tasks: {
+        Row: {
+          created_at: string
+          document_id: string
+          estimated_minutes: number
+          id: string
+          priority: string
+          reason: string
+          status: string
+          title: string
+          topic: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          document_id: string
+          estimated_minutes?: number
+          id?: string
+          priority: string
+          reason: string
+          status?: string
+          title: string
+          topic: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          document_id?: string
+          estimated_minutes?: number
+          id?: string
+          priority?: string
+          reason?: string
+          status?: string
+          title?: string
+          topic?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "learning_tasks_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          full_name: string
+          id: string
+          organization: string
+        }
+        Insert: {
+          created_at?: string
+          full_name?: string
+          id: string
+          organization?: string
+        }
+        Update: {
+          created_at?: string
+          full_name?: string
+          id?: string
+          organization?: string
+        }
+        Relationships: []
+      }
+      quiz_attempts: {
+        Row: {
+          answers: Json
+          completed_at: string
+          id: string
+          percentage: number
+          quiz_id: string
+          score: number
+          submission_id: string
+          total_questions: number
+          user_id: string
+        }
+        Insert: {
+          answers: Json
+          completed_at?: string
+          id?: string
+          percentage: number
+          quiz_id: string
+          score: number
+          submission_id: string
+          total_questions: number
+          user_id: string
+        }
+        Update: {
+          answers?: Json
+          completed_at?: string
+          id?: string
+          percentage?: number
+          quiz_id?: string
+          score?: number
+          submission_id?: string
+          total_questions?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quiz_attempts_quiz_id_fkey"
+            columns: ["quiz_id"]
+            isOneToOne: false
+            referencedRelation: "quizzes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quizzes: {
+        Row: {
+          created_at: string
+          difficulty: string
+          document_id: string
+          id: string
+          questions: Json
+          title: string
+          total_questions: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          difficulty: string
+          document_id: string
+          id?: string
+          questions: Json
+          title: string
+          total_questions: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          difficulty?: string
+          document_id?: string
+          id?: string
+          questions?: Json
+          title?: string
+          total_questions?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quizzes_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      study_guides: {
+        Row: {
+          content: Json
+          created_at: string
+          document_id: string
+          guide_type: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          content: Json
+          created_at?: string
+          document_id: string
+          guide_type: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          content?: Json
+          created_at?: string
+          document_id?: string
+          guide_type?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "study_guides_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tutor_messages: {
+        Row: {
+          content: string
+          created_at: string
+          document_id: string
+          id: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          document_id: string
+          id?: string
+          role: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          document_id?: string
+          id?: string
+          role?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tutor_messages_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      quiz_for_learning: { Args: { p_quiz: string }; Returns: Json }
+      submit_learning_quiz: {
+        Args: { p_answers: Json; p_quiz: string; p_submission: string }
+        Returns: Json
+      }
     }
     Enums: {
       [_ in never]: never
