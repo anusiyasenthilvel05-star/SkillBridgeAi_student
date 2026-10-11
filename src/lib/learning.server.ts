@@ -64,7 +64,7 @@ export async function processDocument(name: string, base64: string) {
       const pdf = await getDocumentProxy(bytes.slice()); const extracted = await extractText(pdf, { mergePages: false });
       pages = extracted.text.map((t, i) => ({ page: i + 1, text: t }));
       text = pages.map(p => `[Page ${p.page}]\n${p.text}`).join('\n\n');
-      await pdf.destroy();
+      await (pdf as unknown as { destroy?: () => Promise<void> }).destroy?.();
       if (pages.every(p => p.text.trim().length < 10)) throw new Error('OCR_REQUIRED');
     } catch (error) {
       if (error instanceof Error && error.message === 'OCR_REQUIRED') throw new Error('This PDF has no selectable text and needs OCR. Upload a text-based PDF or TXT file instead.');

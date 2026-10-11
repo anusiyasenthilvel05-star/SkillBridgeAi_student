@@ -91,7 +91,7 @@ export function MaterialsView() {
   const up = useServerFn(uploadMaterial); const edit = useServerFn(editMaterial);
   const [busy, setBusy] = useState(false); const input = useRef<HTMLInputElement>(null);
   async function onFile(file?: File) {
-    if (!file) return; if (file.size > 10 * 1024 * 1024) return toast.error('Choose a file smaller than 10 MB.');
+    if (!file) return; if (file.size > 10 * 1024 * 1024) { toast.error('Choose a file smaller than 10 MB.'); return; }
     setBusy(true);
     try {
       const buf = new Uint8Array(await file.arrayBuffer()); let bin = ''; for (let i = 0; i < buf.length; i += 0x8000) bin += String.fromCharCode(...buf.subarray(i, i + 0x8000));
@@ -115,11 +115,11 @@ export function MaterialsView() {
   </>}</Loading>;
 }
 
-export function StudyView({ initialDoc }: { initialDoc?: string }) {
+export function StudyView({ initialDoc }: { initialDoc?: string | undefined }) {
   const q = useLearning(); const gen = useServerFn(generateGuide);
   const [doc, setDoc] = useState(initialDoc ?? ''); const [style, setStyle] = useState('Detailed'); const [guide, setGuide] = useState<Guide | null>(null);
   const [busy, setBusy] = useState(false); const [tab, setTab] = useState('Summary'); const [card, setCard] = useState(0); const [flip, setFlip] = useState(false);
-  async function run() { if (!doc) return toast.error('Select a material first.'); setBusy(true); setGuide(null); try { setGuide(await gen({ data: { documentId: doc, style } }) as Guide); setCard(0); setFlip(false); } catch (e) { toast.error(msg(e)); } finally { setBusy(false); } }
+  async function run() { if (!doc) { toast.error('Select a material first.'); return; } setBusy(true); setGuide(null); try { setGuide(await gen({ data: { documentId: doc, style } }) as Guide); setCard(0); setFlip(false); } catch (e) { toast.error(msg(e)); } finally { setBusy(false); } }
   return <Loading data={q.data} error={q.error}>{() => <>
     <Heading title="Study Assistant" sub="Summaries, notes, key concepts and flashcards generated only from your material." />
     {!q.data!.documents.length ? <Empty icon={BookOpen} title="No materials yet" text="Upload a document to start studying." action={uploadCta} /> : <>
@@ -138,7 +138,7 @@ export function QuizzesView() {
   const q = useLearning(); const refresh = useRefresh(); const gen = useServerFn(generateQuiz); const navigate = useNavigate();
   const [f, setF] = useState({ documentId: '', count: 10, difficulty: 'Medium', title: '', topic: '' }); const [busy, setBusy] = useState(false);
   async function create() {
-    if (!f.documentId) return toast.error('Select a material.');
+    if (!f.documentId) { toast.error('Select a material.'); return; }
     setBusy(true);
     try { const doc = q.data!.documents.find(d => d.id === f.documentId)!; const quiz = await gen({ data: { ...f, count: f.count as 5, title: f.title.trim() || `${doc.title} — ${f.difficulty} quiz` } }); await refresh(); navigate({ to: '/quiz/$id', params: { id: quiz.id } }); }
     catch (e) { toast.error(msg(e)); } finally { setBusy(false); }
