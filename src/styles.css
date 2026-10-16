@@ -251,3 +251,23 @@ textarea.field { height:auto; min-height:100px; resize:vertical; }
 @media(max-width:1024px) { .site-container { width:calc(100% - 44px); } .home-workflow { gap:14px; } .workflow-step { gap:9px; } .portal-sidebar { width:220px; } .portal-main { margin-left:220px; width:calc(100% - 220px); } .portal-content { padding:26px 24px; } .stats-grid { grid-template-columns:repeat(2,1fr); } .auth-story { padding:40px; } .study-layout { grid-template-columns:1fr; } .study-source { border:0; padding:0; } }
 @media(max-width:767px) { .site-container { width:calc(100% - 36px); } .site-header { height:72px; } .brand { font-size:18px; } .hero { min-height:580px; } .hero h1 { font-size:34px; max-width:480px; } .hero-content { padding-block:45px; } .hero-photo { object-position:65% center; } .hero-copy { font-size:14px; } .hero-foot { gap:13px; flex-wrap:wrap; } .home-workflow { grid-template-columns:repeat(2,1fr); gap:23px 12px; padding:26px 0; } .feature-grid { grid-template-columns:1fr; gap:15px; } .section-heading h2 { font-size:25px; } .footer-bottom { flex-direction:column; gap:12px; } .auth-layout { display:block; min-height:calc(100vh - 72px); } .auth-story { display:none; } .auth-form-wrap { padding:40px 23px; } .portal-sidebar { transform:translateX(-100%); width:246px; transition:transform .2s; } .portal-sidebar.open { transform:translateX(0); } .portal-main { margin:0; width:100%; } .portal-topbar { padding:15px 18px; } .portal-content { padding:26px 18px; } .page-heading { flex-wrap:wrap; gap:14px; } .page-heading h1 { font-size:24px; } .stat-card { padding:15px; } .stats-grid { gap:12px; } .document-row { flex-wrap:wrap; gap:12px; } .document-actions { width:100%; display:flex; justify-content:flex-end; } .toolbar .field { width:100%; } .upload-zone { padding:27px 16px; } .chat-message { max-width:100%; } .public-title h1 { font-size:29px; } }
 @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; } }
+
+.rich-text { line-height: 1.75; overflow-wrap: anywhere; }
+.rich-text > * + * { margin-top: 0.75em; }
+.rich-text h1, .rich-text h2 { font-size: 1.15em; font-weight: 700; margin-top: 1.1em; }
+.rich-text h3, .rich-text h4 { font-size: 1.02em; font-weight: 600; margin-top: 1em; }
+.rich-text strong { font-weight: 700; color: var(--foreground); }
+.rich-text ul { list-style: disc; padding-left: 1.4em; }
+.rich-text ol { list-style: decimal; padding-left: 1.4em; }
+.rich-text li + li { margin-top: 0.3em; }
+.rich-text a { color: var(--primary); text-decoration: underline; }
+.rich-text code { font-family: ui-monospace, monospace; font-size: 0.88em; background: var(--muted); padding: 0.1em 0.35em; border-radius: 4px; }
+.rich-text pre { background: var(--muted); padding: 0.9em 1em; border-radius: 8px; overflow-x: auto; }
+.rich-text pre code { background: none; padding: 0; }
+.rich-text blockquote { border-left: 3px solid var(--border); padding-left: 0.9em; color: var(--muted-foreground); }
+.rich-table { overflow-x: auto; }
+.rich-text table { border-collapse: collapse; width: 100%; font-size: 0.92em; }
+.rich-text th, .rich-text td { border: 1px solid var(--border); padding: 0.45em 0.7em; text-align: left; }
+.rich-text th { background: var(--muted); font-weight: 600; }
+.rich-text .katex-display { overflow-x: auto; overflow-y: hidden; padding: 0.25em 0; }
+.rich-text.inline > * + * { margin-top: 0; }
